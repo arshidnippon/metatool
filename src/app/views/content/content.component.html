@@ -2,14 +2,84 @@
   <div class="col-lg-6 left-container">
     <div class="row top-left">
       <!-- <button >Load Metamodel</button> -->
-      <input type="file" accept="application/pdf">
-      <label for="" class="load-button">Load Metamodel</label>
+      <input type="file" id="file" accept="application/pdf" (change)="onFileSelected()">
+      <label for="file" class="load-button">Load Metamodel</label>
     </div>
     <div class="row bottom-left">
-      <div>
-        <ngx-extended-pdf-viewer [src]="'assets/example.pdf'" [useBrowserLocale]="true"></ngx-extended-pdf-viewer>
+      <div *ngIf="pdfSrc != undefined">
+        <pdf-viewer [src]="pdfSrc"
+        [zoom-scale]="'page-width'"
+        style="width: 48vw; height: 80vh"
+        ></pdf-viewer>
+      </div>
+      <div *ngIf="pdfSrc == undefined"  style="width: 48vw; height: 80vh; align-items:center">
+        <h5 style="font-size:22px; color: #4f4f4f; text-align:center">
+          Please Select a Metamodel to view
+        </h5>
+      </div>
+
+    </div>
+  </div>
+  <div class="col-lg-6 right-container">
+    <div class="row" style="margin: 0;">
+      <h5 style="margin-top: 10px;">Select Any Quality  attribute To calculate</h5>
+    </div>
+    <div class="row" style="margin: 0; display:flex; padding-top:50px">
+      <div class="col-lg-4">
+        <button  class="load-button" (click)="maintainabiltymodalshow()">Maintainability</button>
+      </div>
+      <div class="col-lg-4">
+        <button  class="load-button">Complexity</button>
+      </div>
+      <div class="col-lg-4">
+        <button  class="load-button">Understandability</button>
+      </div>
+    </div>
+    <div class="row results" >
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Create Project Details -->
+<div class="modal fade" mdbModal id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true" #maintainabiltymodal="mdbModal">
+  <div class="modal-dialog project-modal modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="col-lg-12">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Project</h5>
+        </div>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="maintainabiltymodalClose()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="maintainabiltymodalForm">
+          <div class="col-lg-12 ">
+
+            <div class="row single_row">
+              <div class="col-lg-12">
+                <label for="project rate type">Type of Rate(You can only choose one type of rate)</label>
+                <div class="form-group">
+                  <input type="text"formControlName="title" class="input_long">
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row single_row row-button">
+              <div class="col-lg-12">
+                <button class="btn btn-lite-blue submit__btn" (click)="maintainabiltymodalClose()">
+                  Add Project</button>
+              </div>
+
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-  <div class="col-lg-6 right-container">werwer</div>
 </div>

@@ -7,7 +7,8 @@ import { HomeComponent } from './views/home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SideNavComponent } from './views/side-nav/side-nav.component';
 import { ContentComponent } from './views/content/content.component';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 
 
@@ -23,7 +24,8 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    NgxExtendedPdfViewerModule
+    PdfViewerModule,
+    MDBBootstrapModule
 
 
   ],
