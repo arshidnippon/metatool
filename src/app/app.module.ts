@@ -8,7 +8,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SideNavComponent } from './views/side-nav/side-nav.component';
 import { ContentComponent } from './views/content/content.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 
 
@@ -25,7 +27,9 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
     AppRoutingModule,
     NgbModule,
     PdfViewerModule,
-    MDBBootstrapModule
+    FormsModule,
+    ReactiveFormsModule,
+
 
 
   ],
