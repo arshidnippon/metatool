@@ -40,22 +40,54 @@
         <h5>Results</h5>
         <div class="row" >
           <div class="col-lg-5">
-            Maint: {{ Maint }} <br>
-           <b>Maintanbility</b>  of this metamodel is <b>{{ maintResult }}</b>
+          <h6>Maint: {{ Maint }} <br>
+            <b>Maintanbility</b>  of this metamodel is <b>{{ maintResult }}</b></h6>
           </div>
           <div class="col-lg-4">
-           <b>Understandability:</b>  {{ UND }} <br>
+            <h6>
+              <b>Understandability:</b>  {{ UND }} <br>
+
+            </h6>
 
           </div>
           <div class="col-lg-3">
-           <b>Complexity: </b>  {{ complexity }}
+            <h6>
+              <b>Complexity: </b>  {{ complexity }}
+            </h6>
           </div>
 
         </div>
+        <div class="row" style="margin: 0; margin-top:20px !important">
+          <h6 style="text-decoration: underline;">
+         <b>N.B.</b>   To calculate <b> Complexity </b> please calculate <b>Understandability</b> first.
 
+          </h6>
+
+        </div>
+        <div class="row threshholde">
+          <h6 style="text-decoration: underline;"> <b>Threshold:</b> </h6>
+
+          <div class="row" style="margin: 0;">
+            <div class="col-lg-4" style="border-right: 1px solid #4f4f4f;">
+             <b>Maintainability:</b>  <br>
+              if Maint< 0.1 , Easy To maintain metamodel, <br>
+              if  0.1 <= Maint < 0.2 , Medium To maintain metamodel, <br>
+              if Maint >= 0.2 , Difficult To maintain metamodel,
+            </div>
+            <div class="col-lg-4" style="border-right: 1px solid #4f4f4f;">
+              <b>Understandability:</b>  <br>
+              The higher value for understandability attribute is better.
+            </div>
+            <div class="col-lg-4">
+              <b>Complexity:</b>  <br>
+              Lower value indicates complexity is lower and higher value indicates complexity is higher.
+            </div>
+
+
+          </div>
+        </div>
 
       </div>
-
 
     </div>
   </div>
@@ -138,11 +170,11 @@
     <form [formGroup]="understandabilityForm">
       <div class="row" style="margin-bottom: 5px;">
       <label for="first-name">Number of metaclass: </label>
-      <input id="first-name" type="number"  formControlName="nC" style="margin-left: 120px;">
+      <input id="first-name" type="number"  formControlName="nC" style="margin-left: 145px;">
         </div>
       <div class="row" style="margin-bottom: 5px;">
-        <label for="last-name">Number of predecessors in hierarchy: </label>
-          <input id="last-name" type="number" formControlName="PRED"  style="margin-left: 10px;">
+        <label for="last-name">Total Number of predecessors in hierarchy: </label>
+          <input id="last-name" type="number" formControlName="PRED"  style="margin-left: 0;">
       </div>
 
 

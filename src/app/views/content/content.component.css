@@ -46,7 +46,7 @@ input[type="file"]{
   display:block;
   margin-top: 50px;
   border: 1px solid #4f4f4f;
-  height: 50vh;
+  height: 70vh;
 }
 .input_long{
   min-width: 100%;
@@ -54,6 +54,14 @@ input[type="file"]{
   border: 1px solid #959595;
   height: 35px;
 }
-single_row{
+.single_row{
   display: block;
+}
+
+.threshholde{
+margin: 0 !important;
+border: 1px solid #4f4f4f;
+height: 40vh;
+margin-top: 50px !important;
+display: block;
 }

@@ -53,6 +53,11 @@ export class ContentComponent implements OnInit {
   DITmaxNormalized: number
   HAggMaxNormalized: number
   NumArray: any[]
+  minNumber: number
+  maxNumber: number
+  different: number
+  rangeMax: number
+  rangeMin: number
 
 
   constructor(config: NgbModalConfig, private modalService: NgbModal) {
@@ -89,27 +94,42 @@ export class ContentComponent implements OnInit {
 
   calculateMainatinability(){
     this.modalService.dismissAll();
-    // this.NcM = this.maintanibilityForm.value.nC;
-    // this.NaM = this.maintanibilityForm.value.nA;
-    // this.NrM = this.maintanibilityForm.value.nR;
-    // this.DITmax = this.maintanibilityForm.value.DITmax;
-    // this.HAggMax = this.maintanibilityForm.value.HAggMax;
+     this.NcM = this.maintanibilityForm.value.nC;
+     this.NaM = this.maintanibilityForm.value.nA;
+     this.NrM = this.maintanibilityForm.value.nR;
+     this.DITmax = this.maintanibilityForm.value.DITmax;
+     this.HAggMax = this.maintanibilityForm.value.HAggMax;
 
-    this.NumArray = [this.maintanibilityForm.value];
-    this.NcM = this.NumArray[0].nC;
-    this.NaM = this.NumArray[0].nA;
-    this.NrM = this.NumArray[0].nR;
-    this.DITmax = this.NumArray[0].DITmax;
-    this.HAggMax = this.NumArray[0].HAggMax;
+     this.NumArray = [this.maintanibilityForm.value.nC,this.maintanibilityForm.value.nA,this.maintanibilityForm.value.nR,this.maintanibilityForm.value.DITmax,this.maintanibilityForm.value.HAggMax];
+    // this.NumArray = [];
+
+    // this.NcM = this.NumArray[0].nC;
+    // this.NaM = this.NumArray[0].nA;
+    // this.NrM = this.NumArray[0].nR;
+    // this.DITmax = this.NumArray[0].DITmax;
+    // this.HAggMax = this.NumArray[0].HAggMax;
     // this.NcMNormalized = (this.NcM-0)/(this.NcM-0)
     // this.NaMNormalized = (this.NaM-0)/(this.NaM-0)
     // this.NrMNormalized = (this.NrM-0)/(this.NrM-0)
     // this.DITmaxNormalized = (this.DITmax-0)/(this.DITmax-0)
     // this.HAggMaxNormalized = (this.HAggMax-0)/(this.HAggMax-0)
+  this.minNumber =  Math.min.apply(null, this.NumArray);
+  this.maxNumber = Math.max.apply(null, this.NumArray);
+  this.different = this.maxNumber - this.minNumber;
+  this.rangeMax =  .4;
+  this.rangeMin = 0;
 
-     this.Maint = (this.NcM +  this.NaM + this.NrM + this.DITmax + this.HAggMax)/5;
+
+   this.NcM = this.rangeMin+(((this.NcM- this.minNumber)*(this.rangeMax- this.rangeMin))/ this.different) ;
+   this.NaM =  this.rangeMin+(((this.NaM- this.minNumber)*(this.rangeMax- this.rangeMin))/ this.different) ;
+   this.NrM =  this.rangeMin+(((this.NrM- this.minNumber)*(this.rangeMax- this.rangeMin))/ this.different) ;
+   this.DITmax=  this.rangeMin+(((this.DITmax- this.minNumber)*(this.rangeMax- this.rangeMin))/ this.different) ;
+   this.HAggMax =  this.rangeMin+(((this.HAggMax- this.minNumber)*(this.rangeMax- this.rangeMin))/ this.different) ;
+  //  this.HAggMax = ( this.HAggMax -this.minNumber) /this.different;
+  this.Maint = ((this.NcM +  this.NaM + this.NrM + this.DITmax + this.HAggMax)/5);
+
     // this.Maint =.1;
-    console.log(  this.NumArray )
+    console.log( this.minNumber, this.maxNumber,  this.NcM,  this.NaM, this.NrM, this.DITmax, this.HAggMax);
 
 if( this.Maint < 0.1){
   this.maintResult = "Easy";
@@ -138,11 +158,11 @@ this.complexityForm.reset();
     this.modalService.dismissAll();
     this.NCU = this.understandabilityForm.value.nC;
     this.PRED = this.understandabilityForm.value.PRED;
-    this.UND = (this.PRED + 1)/this.NCU;
+    this.UND = (this.PRED+ 1)/this.NCU;
     this.understandabilityForm.reset();
 
 
   }
 
-  function(val, max, min) { return (val - min) / (max - min); }
+  // function(val, max, min) { return (val - min) / (max - min); }
 }
