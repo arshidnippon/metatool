@@ -47,6 +47,12 @@ export class ContentComponent implements OnInit {
   complexity: any
   NCU: any
   PRED: any
+  NcMNormalized: number
+  NaMNormalized: number
+  NrMNormalized: number
+  DITmaxNormalized: number
+  HAggMaxNormalized: number
+  NumArray: any[]
 
 
   constructor(config: NgbModalConfig, private modalService: NgbModal) {
@@ -83,16 +89,31 @@ export class ContentComponent implements OnInit {
 
   calculateMainatinability(){
     this.modalService.dismissAll();
-    this.NcM = this.maintanibilityForm.value.nC;
-    this.NaM = this.maintanibilityForm.value.nA;
-    this.NrM = this.maintanibilityForm.value.nR;
-    this.DITmax = this.maintanibilityForm.value.DITmax;
-    this.HAggMax = this.maintanibilityForm.value.HAggMax;
+    // this.NcM = this.maintanibilityForm.value.nC;
+    // this.NaM = this.maintanibilityForm.value.nA;
+    // this.NrM = this.maintanibilityForm.value.nR;
+    // this.DITmax = this.maintanibilityForm.value.DITmax;
+    // this.HAggMax = this.maintanibilityForm.value.HAggMax;
 
-    this.Maint = (this.NcM + this.NcM + this.NrM + this.DITmax + this.HAggMax)/5;
+    this.NumArray = [this.maintanibilityForm.value];
+    this.NcM = this.NumArray[0].nC;
+    this.NaM = this.NumArray[0].nA;
+    this.NrM = this.NumArray[0].nR;
+    this.DITmax = this.NumArray[0].DITmax;
+    this.HAggMax = this.NumArray[0].HAggMax;
+    // this.NcMNormalized = (this.NcM-0)/(this.NcM-0)
+    // this.NaMNormalized = (this.NaM-0)/(this.NaM-0)
+    // this.NrMNormalized = (this.NrM-0)/(this.NrM-0)
+    // this.DITmaxNormalized = (this.DITmax-0)/(this.DITmax-0)
+    // this.HAggMaxNormalized = (this.HAggMax-0)/(this.HAggMax-0)
+
+     this.Maint = (this.NcM +  this.NaM + this.NrM + this.DITmax + this.HAggMax)/5;
+    // this.Maint =.1;
+    console.log(  this.NumArray )
+
 if( this.Maint < 0.1){
   this.maintResult = "Easy";
-}else if( this.Maint <= 0.1 && this.Maint <= 0.2){
+}else if( this.Maint >= 0.1 && this.Maint < 0.2){
   this.maintResult = "Medium";
 }else if(this.Maint >= 0.2){
   this.maintResult = "Difficult";
@@ -122,4 +143,6 @@ this.complexityForm.reset();
 
 
   }
+
+  function(val, max, min) { return (val - min) / (max - min); }
 }
