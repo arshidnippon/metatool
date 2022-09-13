@@ -2,6 +2,9 @@
   <div class="col-lg-6 left-container">
     <div class="row top-left">
       <!-- <button >Load Metamodel</button> -->
+      <h5 style="font-size:22px; color: #4f4f4f; text-align:left">
+        Please Select a Metamodel to view
+      </h5>
       <input type="file" id="file" accept="application/pdf" (change)="onFileSelected()">
       <label for="file" class="load-button">Load Metamodel</label>
     </div>
@@ -9,13 +12,11 @@
       <div *ngIf="pdfSrc != undefined">
         <pdf-viewer [src]="pdfSrc"
         [zoom-scale]="'page-width'"
-        style="width: 48vw; height: 80vh"
+        style="width: 48vw; height: 70vh"
         ></pdf-viewer>
       </div>
-      <div *ngIf="pdfSrc == undefined"  style="width: 48vw; height: 80vh; align-items:center">
-        <h5 style="font-size:22px; color: #4f4f4f; text-align:center">
-          Please Select a Metamodel to view
-        </h5>
+      <div *ngIf="pdfSrc == undefined"  style="width: 48vw; height: 70vh; align-items:center">
+
       </div>
 
     </div>
@@ -32,7 +33,7 @@
         <button  class="load-button" (click)="modal(understandability)">Understandability</button>
       </div>
       <div class="col-lg-4">
-        <button  class="load-button"  (click)="show(Complexity)">Complexity</button>
+        <button  class="load-button"  (click)="show(Complexity)" *ngIf="UND !== undefined" >Complexity</button>
       </div>
     </div>
     <div class="row results" >
@@ -57,13 +58,7 @@
           </div>
 
         </div>
-        <div class="row" style="margin: 0; margin-top:20px !important">
-          <h6 style="text-decoration: underline;">
-         <b>N.B.</b>   To calculate <b> Complexity </b> please calculate <b>Understandability</b> first.
 
-          </h6>
-
-        </div>
         <div class="row threshholde">
           <h6 style="text-decoration: underline;"> <b>Threshold:</b> </h6>
 

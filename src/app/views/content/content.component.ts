@@ -164,5 +164,9 @@ this.complexityForm.reset();
 
   }
 
+  // loadModal(Complexity) {
+  //   this.modalService.open(Complexity)
+  // }
+
   // function(val, max, min) { return (val - min) / (max - min); }
 }
