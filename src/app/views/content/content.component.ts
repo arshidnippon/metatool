@@ -58,6 +58,8 @@ export class ContentComponent implements OnInit {
   different: number
   rangeMax: number
   rangeMin: number
+  ComplexityText: any
+  UnderstandibilityText: string
 
 
   constructor(config: NgbModalConfig, private modalService: NgbModal) {
@@ -150,6 +152,15 @@ this.maintanibilityForm.reset();
     this.NCR = this.complexityForm.value.NCR;
 console.log(this.UND);
 this.complexity= ( this.NRC- this.NUR + this.NOPR+ this.UND + (this.NRC - this.NCR));
+
+if(this.complexity < 30){
+  this.ComplexityText = "Simple";
+  this.UnderstandibilityText = "Easy";
+}else{
+  this.ComplexityText = "Complex";
+  this.UnderstandibilityText = "Difficult";
+
+}
 this.complexityForm.reset();
   }
 
@@ -164,9 +175,9 @@ this.complexityForm.reset();
 
   }
 
-  // loadModal(Complexity) {
-  //   this.modalService.open(Complexity)
-  // }
+   loadModal(showRules) {
+     this.modalService.open(showRules)
+   }
 
   // function(val, max, min) { return (val - min) / (max - min); }
 }

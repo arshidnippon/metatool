@@ -1,12 +1,15 @@
 <div class="row wrapper">
   <div class="col-lg-6 left-container">
     <div class="row top-left">
-      <!-- <button >Load Metamodel</button> -->
-      <h5 style="font-size:22px; color: #4f4f4f; text-align:left">
-        Please Select a Metamodel to view
-      </h5>
-      <input type="file" id="file" accept="application/pdf" (change)="onFileSelected()">
-      <label for="file" class="load-button">Load Metamodel</label>
+       <button (click)="loadModal(showRules)" class="load-button">Check Instructions</button>
+      <div class="row" style="margin: 0; display:flex; margin-top:10px">
+        <input type="file" id="file" accept="application/pdf" (change)="onFileSelected()">
+        <label for="file" class="load-button">Load Metamodel</label>
+        <h5 style="font-size:16px; color: #4f4f4f; text-align:left; margin-left: 10px; margin-top: 10px;" >
+          (Please Load a Metamodel to view)
+        </h5>
+      </div>
+
     </div>
     <div class="row bottom-left">
       <div *ngIf="pdfSrc != undefined">
@@ -40,27 +43,38 @@
       <div class="col-lg-12" style="margin-left: 10px;display:block">
         <h5>Results</h5>
         <div class="row" >
-          <div class="col-lg-5">
-          <h6>Maint: {{ Maint }} <br>
+          <div class="col-lg-4">
+          <h6>Maint: {{ Maint |  number : '1.2-2' }} <br>
             <b>Maintanbility</b>  of this metamodel is <b>{{ maintResult }}</b></h6>
           </div>
           <div class="col-lg-4">
             <h6>
-              <b>Understandability:</b>  {{ UND }} <br>
+              <b>Understandability:</b>  {{ UND |  number : '1.2-2'}} <br>
 
             </h6>
 
           </div>
-          <div class="col-lg-3">
+          <div class="col-lg-4">
             <h6>
-              <b>Complexity: </b>  {{ complexity }}
+              Comp:   {{ complexity |  number : '1.2-2'}} <br>
+              Complexity of metamodel is <b>{{ ComplexityText }}</b>
             </h6>
           </div>
 
         </div>
 
         <div class="row threshholde">
-          <h6 style="text-decoration: underline;"> <b>Threshold:</b> </h6>
+
+          <div class="row" style="margin: 0 !important; display:block;">
+           <b>Summary:</b>
+
+            <h6  *ngIf="UND !== undefined && Maint !== undefined && complexity !== undefined" >
+              Maintainabilty of the metamodel is <b>{{ maintResult }}</b>,
+              Complexity of the metamodel is  <b>{{ ComplexityText }}</b>,
+              and <b>{{ UnderstandibilityText }}</b>  to understand.
+            </h6>
+          </div>
+          <h6 style="text-decoration: underline;margin-top:10px"> <b>Threshold:</b> </h6>
 
           <div class="row" style="margin: 0;">
             <div class="col-lg-4" style="border-right: 1px solid #4f4f4f;">
@@ -75,11 +89,16 @@
             </div>
             <div class="col-lg-4">
               <b>Complexity:</b>  <br>
-              Lower value indicates complexity is lower and higher value indicates complexity is higher.
+              Lower value indicates complexity is lower and higher value indicates complexity is higher. <br>
+              * Comp < 30 = Simple. <br>
+              * Comp > 30 = Complex.
+
             </div>
 
 
           </div>
+
+
         </div>
 
       </div>
@@ -93,7 +112,7 @@
 <ng-template #maintainability  let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Please Input Maintainability Metrics</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')">X</button>
   </div>
   <div class="modal-body">
     <form [formGroup]="maintanibilityForm">
@@ -120,7 +139,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <h6>DITmax: It is the maximum between the DIT value obtained for each class of the metamodel. </h6>
+    <h6>DITmax: It is the maximum between the DIT(Depth of Inheritence Tree) value obtained for each class of the metamodel. </h6>
     <h6>HAggMax: It is the maximum between the HAgg value obtained for each class of the metamodel.</h6>
     <button type="button" class="btn btn-outline-dark" (click)="calculateMainatinability()">Calculate</button>
   </div>
@@ -129,7 +148,7 @@
 <ng-template #Complexity  let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Please Input Complexity Metrics</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')">X</button>
   </div>
   <div class="modal-body">
     <form [formGroup]="complexityForm">
@@ -159,7 +178,7 @@
 <ng-template #understandability  let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Please Input Understandability Metrics</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')">X</button>
   </div>
   <div class="modal-body">
     <form [formGroup]="understandabilityForm">
@@ -178,6 +197,22 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="calculateunderstandability()">Calculate</button>
   </div>
+</ng-template>
+
+
+<ng-template #showRules  let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Instruction  to use the tool</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')">X</button>
+  </div>
+  <div class="modal-body" style="line-height: 1.5;">
+    Instruction  to use the Tool: <br>
+    # Select A metamodel to see in viewer. <br>
+    # Calculate maintainability by clicking maintainability button and input all the metrics and click calculate button. <br>
+    # Calculate Understandability by clicking Understandability button and input all the metrics and click calculate button. <br>
+    # To calculate complexity, first you have to calculate understandability. Once calculate understandability you cann Calculate Understandability by clicking complexity button and input all the metrics and click calculate button.
+  </div>
+
 </ng-template>
 
 
