@@ -74,6 +74,14 @@
               and <b>{{ UnderstandibilityText }}</b>  to understand.
             </h6>
           </div>
+          <div class="row" style="margin: 0 !important; display:block;">
+            <b>Result:</b>
+
+             <h6  *ngIf="UND !== undefined && Maint !== undefined && complexity !== undefined" >
+              Selected metamodel quality is <b>{{  modelQuality }}</b>.
+             </h6>
+           </div>
+
           <h6 style="text-decoration: underline;margin-top:10px"> <b>Threshold:</b> </h6>
 
           <div class="row" style="margin: 0;">
@@ -195,7 +203,7 @@
         </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="calculateunderstandability()">Calculate</button>
+    <button type="button" class="btn btn-outline-dark" (click)="calculateUnderstandability()">Calculate</button>
   </div>
 </ng-template>
 

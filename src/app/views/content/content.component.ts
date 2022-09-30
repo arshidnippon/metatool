@@ -60,6 +60,7 @@ export class ContentComponent implements OnInit {
   rangeMin: number
   ComplexityText: any
   UnderstandibilityText: string
+  modelQuality: string
 
 
   constructor(config: NgbModalConfig, private modalService: NgbModal) {
@@ -96,51 +97,44 @@ export class ContentComponent implements OnInit {
 
   calculateMainatinability(){
     this.modalService.dismissAll();
-     this.NcM = this.maintanibilityForm.value.nC;
-     this.NaM = this.maintanibilityForm.value.nA;
-     this.NrM = this.maintanibilityForm.value.nR;
-     this.DITmax = this.maintanibilityForm.value.DITmax;
-     this.HAggMax = this.maintanibilityForm.value.HAggMax;
+    this.NcM = this.maintanibilityForm.value.nC;
+    this.NaM = this.maintanibilityForm.value.nA;
+    this.NrM = this.maintanibilityForm.value.nR;
+    this.DITmax = this.maintanibilityForm.value.DITmax;
+    this.HAggMax = this.maintanibilityForm.value.HAggMax;
 
-     this.NumArray = [this.maintanibilityForm.value.nC,this.maintanibilityForm.value.nA,this.maintanibilityForm.value.nR,this.maintanibilityForm.value.DITmax,this.maintanibilityForm.value.HAggMax];
-    // this.NumArray = [];
+    this.rangeMax =  .4;
+    this.rangeMin = 0;
 
-    // this.NcM = this.NumArray[0].nC;
-    // this.NaM = this.NumArray[0].nA;
-    // this.NrM = this.NumArray[0].nR;
-    // this.DITmax = this.NumArray[0].DITmax;
-    // this.HAggMax = this.NumArray[0].HAggMax;
-    // this.NcMNormalized = (this.NcM-0)/(this.NcM-0)
-    // this.NaMNormalized = (this.NaM-0)/(this.NaM-0)
-    // this.NrMNormalized = (this.NrM-0)/(this.NrM-0)
-    // this.DITmaxNormalized = (this.DITmax-0)/(this.DITmax-0)
-    // this.HAggMaxNormalized = (this.HAggMax-0)/(this.HAggMax-0)
-  this.minNumber =  Math.min.apply(null, this.NumArray);
-  this.maxNumber = Math.max.apply(null, this.NumArray);
-  this.different = this.maxNumber - this.minNumber;
-  this.rangeMax =  .4;
-  this.rangeMin = 0;
+    this.NumArray = [this.maintanibilityForm.value.nC,
+                    this.maintanibilityForm.value.nA,
+                    this.maintanibilityForm.value.nR,
+                    this.maintanibilityForm.value.DITmax,
+                    this.maintanibilityForm.value.HAggMax];
+
+    this.minNumber =  Math.min.apply(null, this.NumArray);
+    this.maxNumber = Math.max.apply(null, this.NumArray);
+    this.different = this.maxNumber - this.minNumber;
+
+    this.NcM = this.rangeMin+(((this.NcM- (this.minNumber))*(this.rangeMax- this.rangeMin))/ this.different) ;
+    this.NaM =  this.rangeMin+(((this.NaM- (this.minNumber))*(this.rangeMax- this.rangeMin))/ this.different) ;
+    this.NrM =  this.rangeMin+(((this.NrM- (this.minNumber))*(this.rangeMax- this.rangeMin))/ this.different) ;
+    this.DITmax=  this.rangeMin+(((this.DITmax- (this.minNumber))*(this.rangeMax- this.rangeMin))/ this.different) ;
+    this.HAggMax =  this.rangeMin+(((this.HAggMax- (this.minNumber))*(this.rangeMax- this.rangeMin))/ this.different) ;
+
+    this.Maint = ((this.NcM +  this.NaM + this.NrM + this.DITmax + this.HAggMax)/5);
 
 
-   this.NcM = this.rangeMin+(((this.NcM- this.minNumber)*(this.rangeMax- this.rangeMin))/ this.different) ;
-   this.NaM =  this.rangeMin+(((this.NaM- this.minNumber)*(this.rangeMax- this.rangeMin))/ this.different) ;
-   this.NrM =  this.rangeMin+(((this.NrM- this.minNumber)*(this.rangeMax- this.rangeMin))/ this.different) ;
-   this.DITmax=  this.rangeMin+(((this.DITmax- this.minNumber)*(this.rangeMax- this.rangeMin))/ this.different) ;
-   this.HAggMax =  this.rangeMin+(((this.HAggMax- this.minNumber)*(this.rangeMax- this.rangeMin))/ this.different) ;
-  //  this.HAggMax = ( this.HAggMax -this.minNumber) /this.different;
-  this.Maint = ((this.NcM +  this.NaM + this.NrM + this.DITmax + this.HAggMax)/5);
+    console.log(this.NcM,  this.NaM, this.NrM, this.DITmax, this.HAggMax);
 
-    // this.Maint =.1;
-    console.log( this.minNumber, this.maxNumber,  this.NcM,  this.NaM, this.NrM, this.DITmax, this.HAggMax);
-
-if( this.Maint < 0.1){
-  this.maintResult = "Easy";
-}else if( this.Maint >= 0.1 && this.Maint < 0.2){
-  this.maintResult = "Medium";
-}else if(this.Maint >= 0.2){
-  this.maintResult = "Difficult";
-}
-this.maintanibilityForm.reset();
+    if( this.Maint < 0.1){
+      this.maintResult = "Easy";
+    }else if( this.Maint >= 0.1 && this.Maint < 0.2){
+      this.maintResult = "Medium";
+    }else if(this.Maint >= 0.2){
+      this.maintResult = "Difficult";
+    }
+    this.maintanibilityForm.reset();
 
   }
 
@@ -150,34 +144,46 @@ this.maintanibilityForm.reset();
     this.NUR = this.complexityForm.value.NUR;
     this.NOPR = this.complexityForm.value.NOPR;
     this.NCR = this.complexityForm.value.NCR;
-console.log(this.UND);
-this.complexity= ( this.NRC- this.NUR + this.NOPR+ this.UND + (this.NRC - this.NCR));
+    console.log(this.UND);
+    this.complexity= ( this.NRC- this.NUR + this.NOPR+ this.UND + (this.NRC - this.NCR));
 
-if(this.complexity < 30){
-  this.ComplexityText = "Simple";
-  this.UnderstandibilityText = "Easy";
-}else{
-  this.ComplexityText = "Complex";
-  this.UnderstandibilityText = "Difficult";
+      if(this.complexity < 30){
+        this.ComplexityText = "Simple";
+        this.UnderstandibilityText = "Easy";
+      }else{
+        this.ComplexityText = "Complex";
+        this.UnderstandibilityText = "Difficult";
 
-}
-this.complexityForm.reset();
+      }
+      this.calculateOverallQuality();
+      this.complexityForm.reset();
   }
 
 
-  calculateunderstandability(){
+  calculateUnderstandability(){
     this.modalService.dismissAll();
     this.NCU = this.understandabilityForm.value.nC;
-    this.PRED = this.understandabilityForm.value.PRED;
-    this.UND = (this.PRED+ 1)/this.NCU;
+    this.PRED = this.understandabilityForm.value.PRED; // total PRED
+    this.UND = (this.PRED + 1)/this.NCU;
     this.understandabilityForm.reset();
-
 
   }
 
    loadModal(showRules) {
      this.modalService.open(showRules)
    }
+
+  calculateOverallQuality(){
+    if(this.complexity < 30 &&  this.Maint < .2 ){
+      this.modelQuality = "GOOD"
+    }else if(this.complexity > 30 &&  this.Maint >= .2){
+      this.modelQuality = "POOR"
+    }else if (this.complexity < 30 &&  this.Maint >= .2){
+      this.modelQuality = "MODERATE"
+    }else if (this.complexity > 30 &&   this.Maint < .2){
+      this.modelQuality = "MODERATE"
+    }
+  }
 
   // function(val, max, min) { return (val - min) / (max - min); }
 }
